@@ -13,6 +13,21 @@ config :monitorix, Monitorix.Endpoint,
   pubsub: [name: Monitorix.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :quantum, :monitorix,
+  cron: [
+
+    every_5_minutes: [
+      schedule: "*/5 * * * *",
+      task: {Notifier, :ping},
+      args: [5]
+    ],
+    every_minute: [
+      schedule: "* * * * *",
+      task: {Notifier, :ping},
+      args: [1]
+    ]
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

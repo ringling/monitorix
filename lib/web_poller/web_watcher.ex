@@ -1,22 +1,35 @@
 defmodule WebWatcher do
 
+  require Logger
+
   ## Client API
 
   @doc """
-  Starts the registry.
+  Starts the web_watcher.
   """
+  def start_link do
+    GenServer.start_link(__MODULE__, [], [name: __MODULE__])
+  end
   def start_link(targets) do
-    GenServer.start_link(__MODULE__, targets, [])
+    GenServer.start_link(__MODULE__, targets, [name: __MODULE__])
+  end
+  def start_link(targets, name) do
+    GenServer.start_link(__MODULE__, targets, [name: name])
   end
 
-
+  def targets, do: targets(__MODULE__)
   def targets(server) do
     GenServer.call(server, {:targets})
   end
 
+  def add_target(target), do: add_target(__MODULE__, target)
   def add_target(server, target) do
     GenServer.call(server, {:add_target, target})
+  end
 
+  def ping_targets(minute), do: ping_targets(__MODULE__, minute)
+  def ping_targets(server, minute) do
+    GenServer.call(server, {:ping_targets, minute})
   end
 
 
@@ -36,7 +49,11 @@ defmodule WebWatcher do
     {:reply, :ok, state}
   end
 
+  def handle_call({:ping_targets, minute}, _from, state) do
+    # state.targets |> Task
+    Logger.debug "PingTargets #{minute} - #{inspect DateTime.utc_now}"
 
-
+    {:reply, :ok, state}
+  end
 
 end

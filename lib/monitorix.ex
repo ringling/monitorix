@@ -8,10 +8,8 @@ defmodule Monitorix do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the endpoint when the application starts
       supervisor(Monitorix.Endpoint, []),
-      # Start your own worker by calling: Monitorix.Worker.start_link(arg1, arg2, arg3)
-      # worker(Monitorix.Worker, [arg1, arg2, arg3]),
+      worker(WebWatcher, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
