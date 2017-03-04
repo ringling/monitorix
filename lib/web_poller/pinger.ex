@@ -1,13 +1,13 @@
 defmodule Pinger do
 
-  def ping(url, follow_redirect, httpoison \\ HTTPoison) do
-    {ping_time, value}  = :timer.tc(fn -> Pinger.execute(url, follow_redirect, httpoison) end, [])
+  def ping(target, httpoison \\ HTTPoison) do
+    {ping_time, value}  = :timer.tc(fn -> Pinger.execute(target, httpoison) end, [])
     value |> Map.put(:time, "#{ping_time/1000}ms")
   end
 
-  def execute(url, follow_redirect, httpoison) do
+  def execute(target, httpoison) do
 
-    case httpoison.get(url, [], [follow_redirect: follow_redirect]) do
+    case httpoison.get(target.url, [], [follow_redirect: target.follow_redirect]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{status: 200, body: body}
 
