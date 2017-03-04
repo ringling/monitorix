@@ -2,25 +2,25 @@ defmodule PingerTest do
   use ExUnit.Case
 
   @httpoison_mock HTTPoisonMock
-  #@httpoison_mock HTTPoison
+  # @httpoison_mock HTTPoison
 
   test "should ping site" do
     url = "http://web1.privacytree.eu/1"
-    %{status: status, time: time, body: body} = Pinger.ping(url, false, @httpoison_mock)
+    %{status: status, time: time, body: "body"} = Pinger.ping(url, false, @httpoison_mock)
     assert status == 200
     assert time
   end
 
   test "should follow redirects" do
     url = "http://www.privacytree.eu/da"
-    %{status: status, time: time, body: body} = Pinger.ping(url, true, @httpoison_mock)
+    %{status: status, time: time, body: "body"} = Pinger.ping(url, true, @httpoison_mock)
     assert status == 200
     assert time
   end
 
   test "should not follow redirects" do
     url = "http://www.privacytree.eu/da"
-    %{status: status, time: time, body: body} = Pinger.ping(url, false, @httpoison_mock)
+    %{status: status, time: time, body: "body"} = Pinger.ping(url, false, @httpoison_mock)
     assert status == 301
     assert time
   end
@@ -32,10 +32,16 @@ defmodule PingerTest do
     assert time
   end
 
+  test "should return server error" do
+    url = "http://web1.privacytree.eu/api/23"
+    %{status: code, time: time, body: "body"} = Pinger.ping(url, false, @httpoison_mock)
+    assert code == 500
+    assert time
+  end
+
 end
 
 defmodule HTTPoisonMock do
-
 
   def get("http://www.privacytree.eu/da", [], [follow_redirect: false]) do
     {:ok, %HTTPoison.Response{status_code: 301, body: "body"}}
@@ -47,6 +53,10 @@ defmodule HTTPoisonMock do
 
   def get("http://web1.privacytree.eu/1", [], _) do
     {:ok, %HTTPoison.Response{status_code: 200, body: "body"}}
+  end
+
+  def get("http://web1.privacytree.eu/api/23", [], _) do
+    {:ok, %HTTPoison.Response{status_code: 500, body: "body"}}
   end
 
   def get("https://web1.privacytree.eu", [], _) do

@@ -17,8 +17,8 @@ defmodule Pinger do
       {:ok, %HTTPoison.Response{status_code: 404, body: body}} ->
         %{status: 404, body: body}
 
-      {:ok, %HTTPoison.Response{status_code: 500}} ->
-        %{status: 500}
+      {:ok, %HTTPoison.Response{status_code: 500, body: body}} ->
+        %{status: 500, body: body}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         %{error: reason}
