@@ -1,16 +1,16 @@
-defmodule WebPollerTest do
+defmodule PingerTest do
   use ExUnit.Case
 
   test "should ping site" do
     url = "http://web1.privacytree.eu/1"
-    %{status: status, time: time} = WebPoller.ping(url, HTTPoisonMock)
+    %{status: status, time: time} = Pinger.ping(url, HTTPoisonMock)
     assert status == 200
     assert time
   end
 
   test "should return error" do
     url = "https://web1.privacytree.eu"
-    %{error: error, time: time} = WebPoller.ping(url, HTTPoisonMock)
+    %{error: error, time: time} = Pinger.ping(url, HTTPoisonMock)
     assert error == :econnrefused
     assert time
   end

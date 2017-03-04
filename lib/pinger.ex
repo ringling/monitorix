@@ -1,7 +1,7 @@
-defmodule WebPoller do
+defmodule Pinger do
 
   def ping(url, httpoison \\ HTTPoison) do
-    {ping_time, value}  = :timer.tc(fn -> WebPoller.execute(url, httpoison) end, [])
+    {ping_time, value}  = :timer.tc(fn -> Pinger.execute(url, httpoison) end, [])
     value |> Map.put(:time, "#{ping_time/1000}ms")
   end
 
