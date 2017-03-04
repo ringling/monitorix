@@ -6,9 +6,9 @@ defmodule TargetTest do
     assert target.url == nil
   end
 
-  test "should have nil default body" do
+  test "should have nil default body_match" do
     target = %Target{}
-    assert target.body == nil
+    assert target.body_match == nil
   end
 
 
