@@ -14,7 +14,7 @@ defmodule Monitorix.Mixfile do
 
   def application do
     [mod: {Monitorix, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :httpoison]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :httpoison, :quantum]]
   end
 
   # Specifies which paths to compile per environment.
@@ -29,6 +29,7 @@ defmodule Monitorix.Mixfile do
      {:gettext, "~> 0.11"},
      {:httpoison, "~> 0.11"},
      {:hackney, "1.6.1", override: true},
+     {:quantum, ">= 1.9.0"},
      {:cowboy, "~> 1.0"}]
   end
 end
