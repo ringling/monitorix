@@ -32,11 +32,10 @@ defmodule WebWatcher do
     GenServer.call(server, {:ping_targets, minute})
   end
 
-
   ## Server Callbacks
 
   def init(targets) do
-    {:ok, %{targets: targets}}
+    {:ok, %{targets: targets, counter: 0}}
   end
 
   def handle_call({:targets}, _from, state) do
@@ -51,7 +50,8 @@ defmodule WebWatcher do
 
   def handle_call({:ping_targets, minute}, _from, state) do
     # state.targets |> Task
-    Logger.debug "PingTargets #{minute} - #{inspect DateTime.utc_now}"
+    state = state |> Map.put(:counter, state.counter + 1)
+    Logger.debug "#{state.counter}: PingTargets #{minute} - #{inspect DateTime.utc_now}"
 
     {:reply, :ok, state}
   end

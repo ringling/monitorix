@@ -2,7 +2,7 @@ defmodule WebWatcherTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, web_watcher} = WebWatcher.start_link([])
+    {:ok, web_watcher} = WebWatcher.start_link([], :test)
     {:ok, web_watcher: web_watcher}
   end
 
