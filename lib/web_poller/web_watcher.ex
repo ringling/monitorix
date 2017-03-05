@@ -49,9 +49,9 @@ defmodule WebWatcher do
   end
 
   def handle_call({:ping_targets, minute}, _from, state) do
-    # state.targets |> Task
-    state = state |> Map.put(:counter, state.counter + 1)
-    Logger.debug "#{state.counter}: PingTargets #{minute} - #{inspect DateTime.utc_now}"
+
+    state = %{state | counter: state.counter + 1}
+    Logger.debug "#{state.counter}: PingTargets #{minute} - #{inspect DateTime.to_iso8601(DateTime.utc_now)}"
 
     {:reply, :ok, state}
   end

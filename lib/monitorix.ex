@@ -17,4 +17,5 @@ defmodule Monitorix do
     Monitorix.Endpoint.config_change(changed, removed)
     :ok
   end
+
 end
